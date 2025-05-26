@@ -36,8 +36,6 @@ class _CharacterCardListViewState extends State<CharacterCardListView> {
       const int delta = 200;
       if (maxScroll - currentScroll <= delta) {
         widget.onLoadMore();
-
-        log('Scroll End Detected');
       }
     });
   }

@@ -27,21 +27,24 @@ class _CharactersViewState extends State<CharactersView> {
     // }
     var children = [
       _serchInputWidget(context),
-      Consumer<CharactersViewModel>(
-        builder: (context, viewModel, child) {
-          if (viewModel.characterResponse == null) {
-            return const Center(child: CircularProgressIndicator.adaptive());
-          }
-          return CharacterCardListView(
-            viewModel: viewModel,
-            onLoadMore: () {
-              context.read<CharactersViewModel>().getCharactersMore();
-              log('Load More Characters');
+      context.watch<CharactersViewModel>().characterResponse == null
+          ? const Center(child: CircularProgressIndicator.adaptive())
+          : Consumer<CharactersViewModel>(
+            builder: (context, viewModel, child) {
+              if (viewModel.characterResponse == null) {
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                );
+              }
+              return CharacterCardListView(
+                viewModel: viewModel,
+                onLoadMore: () {
+                  viewModel.getCharactersMore();
+                },
+                isLoading: viewModel.isLoading,
+              );
             },
-            isLoading: viewModel.isLoading,
-          );
-        },
-      ),
+          ),
     ];
     return Scaffold(body: Center(child: Column(children: children)));
   }
@@ -49,7 +52,11 @@ class _CharactersViewState extends State<CharactersView> {
   Padding _serchInputWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 12, bottom: 16),
-      child: TextField(
+      child: TextFormField(
+        textInputAction: TextInputAction.search,
+        onFieldSubmitted:
+            (value) =>
+                context.read<CharactersViewModel>().searchCharacter(value),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
@@ -57,8 +64,8 @@ class _CharactersViewState extends State<CharactersView> {
               width: 2.0, // Kalınlığı
             ),
           ),
-          labelText: 'Karakter Ara',
-          labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          hintText: 'Karakter Ara',
+          hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
           prefixIcon: Icon(
             Icons.search,
             color: Theme.of(context).colorScheme.primary,
