@@ -3,8 +3,9 @@ import 'package:rickandmorty/app/di.dart';
 import 'package:rickandmorty/app/router.dart';
 import 'package:rickandmorty/app/theme.dart';
 
-void main() {
-  setupDI();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupDI();
   runApp(const MyApp());
 }
 

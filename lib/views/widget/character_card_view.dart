@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:rickandmorty/app/di.dart';
 import 'package:rickandmorty/models/characters_model.dart';
+import 'package:rickandmorty/services/preferences_service.dart';
 
-class CharacterCardView extends StatelessWidget {
+class CharacterCardView extends StatefulWidget {
   final Character character;
+  bool isFavorite;
 
-  const CharacterCardView({super.key, required this.character});
+  CharacterCardView({
+    super.key,
+    required this.character,
+    required this.isFavorite,
+  });
+
+  @override
+  State<CharacterCardView> createState() => _CharacterCardViewState();
+}
+
+class _CharacterCardViewState extends State<CharacterCardView> {
+  void _favoriteButtonPressed() {
+    if (widget.isFavorite) {
+      // If already favorite, remove from favorites
+      di<PreferencesService>().removeCharacter(widget.character.id);
+    } else {
+      // If not favorite, add to favorites
+      di<PreferencesService>().saveCharacter(widget.character.id);
+    }
+
+    widget.isFavorite = !widget.isFavorite;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +44,7 @@ class CharacterCardView extends StatelessWidget {
           child: Row(
             children: [
               // Avatar Container
-              _avatarWidget(context, image: character.image),
+              _avatarWidget(context, image: widget.character.image),
 
               const SizedBox(width: 17),
 
@@ -36,7 +61,7 @@ class CharacterCardView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            character.name,
+                            widget.character.name,
                             style: Theme.of(
                               context,
                             ).textTheme.titleMedium?.copyWith(
@@ -49,7 +74,7 @@ class CharacterCardView extends StatelessWidget {
                           const SizedBox(height: 5),
                           _infoLocationWidget(
                             context,
-                            location: character.location.name,
+                            location: widget.character.location.name,
                           ),
                         ],
                       ),
@@ -57,8 +82,8 @@ class CharacterCardView extends StatelessWidget {
                       // Status Chip
                       _infoStatusWidget(
                         context,
-                        status: character.status,
-                        type: character.species,
+                        status: widget.character.status,
+                        type: widget.character.species,
                       ),
                     ],
                   ),
@@ -70,11 +95,11 @@ class CharacterCardView extends StatelessWidget {
                 alignment: Alignment.topRight,
                 margin: const EdgeInsets.only(left: 0),
                 child: IconButton(
-                  onPressed: () {
-                    // Bookmark functionality
-                  },
+                  onPressed: _favoriteButtonPressed,
                   icon: Icon(
-                    Icons.bookmark_border_rounded,
+                    widget.isFavorite
+                        ? Icons.bookmark_rounded
+                        : Icons.bookmark_border_rounded,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                   style: IconButton.styleFrom(

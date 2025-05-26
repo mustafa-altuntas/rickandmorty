@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rickandmorty/app/di.dart';
+import 'package:rickandmorty/services/preferences_service.dart';
 import 'package:rickandmorty/views/screens/characters_view/characters_view_model.dart';
 import 'package:rickandmorty/views/widget/character_card_view.dart';
 
@@ -19,12 +21,27 @@ class CharacterCardListView extends StatefulWidget {
 
 class _CharacterCardListViewState extends State<CharacterCardListView> {
   final ScrollController _scrollController = ScrollController();
+  List<int> _favoriteCharacters = [];
+  bool _isLoading = false;
 
   @override
   void initState() {
     // widget ilk olşturulduğunda çalışan metod
+    _getFavoriteCharacters();
     _detectScrollEnd();
     super.initState();
+  }
+
+  void _setIsLoading(bool value) {
+    _isLoading = value;
+    setState(() {});
+  }
+
+  void _getFavoriteCharacters() async {
+    _setIsLoading(true);
+    _favoriteCharacters = di<PreferencesService>().getSavedCharacters();
+    _setIsLoading(false);
+    setState(() {});
   }
 
   void _detectScrollEnd() {
@@ -40,17 +57,24 @@ class _CharacterCardListViewState extends State<CharacterCardListView> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator.adaptive());
+    }
     return Flexible(
       child: ListView.builder(
         shrinkWrap: true,
         controller: _scrollController,
         itemCount: widget.viewModel.characterResponse!.characters.length,
         itemBuilder: (context, index) {
+          final isFavorite = _favoriteCharacters.contains(
+            widget.viewModel.characterResponse!.characters[index].id,
+          );
           return Column(
             children: [
               CharacterCardView(
                 character:
                     widget.viewModel.characterResponse!.characters[index],
+                isFavorite: isFavorite,
               ),
               if (widget.isLoading &&
                   index ==
