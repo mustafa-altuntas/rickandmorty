@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/views/screens/characters_view/characters_view_model.dart';
 import 'package:rickandmorty/views/widget/character_card_view.dart';
