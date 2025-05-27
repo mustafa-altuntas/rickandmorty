@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+import 'package:rickandmorty/views/screens/favorites_view/favorites_view_model.dart';
 
 class AppView extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -9,6 +11,7 @@ class AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBarWidget(),
+
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18),
         child: navigationShell,
@@ -49,7 +52,12 @@ class AppView extends StatelessWidget {
 
         child: NavigationBar(
           selectedIndex: navigationShell.currentIndex,
-          onDestinationSelected: navigationShell.goBranch,
+          onDestinationSelected: (index) {
+            navigationShell.goBranch(index);
+            if (index == 1) {
+              context.read<FavoritesViewModel>().getFavorites();
+            }
+          },
           indicatorColor: Colors.transparent,
           destinations: [
             _menuItem(

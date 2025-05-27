@@ -14,7 +14,7 @@ class FavoritesViewModel extends ChangeNotifier {
     List<int> favoriteIds = _preferencesApi.getSavedCharacters();
     if (favoriteIds.isNotEmpty) {
       _favorites = await _apiServie.getMultipleCharacters(favoriteIds);
+      notifyListeners();
     }
-    notifyListeners();
   }
 }

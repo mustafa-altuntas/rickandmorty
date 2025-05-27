@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/app/di.dart';
 import 'package:rickandmorty/models/characters_model.dart';
@@ -60,6 +58,8 @@ class _CharacterCardListViewState extends State<CharacterCardListView> {
 
   @override
   Widget build(BuildContext context) {
+    // sayfalar arası geçişlerde tekrar favori karakterleri al
+    _getFavoriteCharacters();
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator.adaptive());
     }

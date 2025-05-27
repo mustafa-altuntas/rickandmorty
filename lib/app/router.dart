@@ -52,11 +52,7 @@ final router = GoRouter(
           routes: [
             GoRoute(
               path: AppRoute.favorites,
-              builder:
-                  (context, state) => ChangeNotifierProvider(
-                    create: (context) => FavoritesViewModel(),
-                    child: FavoritesView(),
-                  ),
+              builder: (context, state) => FavoritesView(),
             ),
           ],
         ),
