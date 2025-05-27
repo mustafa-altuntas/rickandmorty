@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rickandmorty/app/router.dart';
 import 'package:rickandmorty/views/screens/favorites_view/favorites_view_model.dart';
 import 'package:rickandmorty/views/widget/character_card_list_view.dart';
 

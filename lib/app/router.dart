@@ -5,7 +5,6 @@ import 'package:rickandmorty/views/app_view.dart';
 import 'package:rickandmorty/views/screens/characters_view/characters_view.dart';
 import 'package:rickandmorty/views/screens/characters_view/characters_view_model.dart';
 import 'package:rickandmorty/views/screens/favorites_view/favorites_view.dart';
-import 'package:rickandmorty/views/screens/favorites_view/favorites_view_model.dart';
 import 'package:rickandmorty/views/screens/locations_view/locations_view.dart';
 import 'package:rickandmorty/views/screens/sections_view/sections_view.dart';
 
