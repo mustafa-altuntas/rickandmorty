@@ -1,17 +1,20 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/app/di.dart';
+import 'package:rickandmorty/models/characters_model.dart';
 import 'package:rickandmorty/services/preferences_service.dart';
-import 'package:rickandmorty/views/screens/characters_view/characters_view_model.dart';
 import 'package:rickandmorty/views/widget/character_card_view.dart';
 
 class CharacterCardListView extends StatefulWidget {
-  final CharactersViewModel viewModel;
-  final VoidCallback onLoadMore;
+  // final CharactersViewModel viewModel;
+  final CharacterResponse? viewModel;
+  final VoidCallback? onLoadMore;
   final bool isLoading;
   const CharacterCardListView({
     super.key,
     required this.viewModel,
-    required this.onLoadMore,
+    this.onLoadMore,
     this.isLoading = false,
   });
 
@@ -50,7 +53,7 @@ class _CharacterCardListViewState extends State<CharacterCardListView> {
       final currentScroll = _scrollController.position.pixels;
       const int delta = 200;
       if (maxScroll - currentScroll <= delta) {
-        widget.onLoadMore();
+        widget.onLoadMore?.call();
       }
     });
   }
@@ -64,21 +67,19 @@ class _CharacterCardListViewState extends State<CharacterCardListView> {
       child: ListView.builder(
         shrinkWrap: true,
         controller: _scrollController,
-        itemCount: widget.viewModel.characterResponse!.characters.length,
+        itemCount: widget.viewModel!.characters.length,
         itemBuilder: (context, index) {
           final isFavorite = _favoriteCharacters.contains(
-            widget.viewModel.characterResponse!.characters[index].id,
+            widget.viewModel!.characters[index].id,
           );
           return Column(
             children: [
               CharacterCardView(
-                character:
-                    widget.viewModel.characterResponse!.characters[index],
+                character: widget.viewModel!.characters[index],
                 isFavorite: isFavorite,
               ),
               if (widget.isLoading &&
-                  index ==
-                      widget.viewModel.characterResponse!.characters.length - 1)
+                  index == widget.viewModel!.characters.length - 1)
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Center(child: CircularProgressIndicator.adaptive()),

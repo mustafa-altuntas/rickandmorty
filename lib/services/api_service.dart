@@ -21,4 +21,26 @@ class ApiService {
       return null;
     }
   }
+
+  Future<CharacterResponse?> getMultipleCharacters(List<int> idList) async {
+    String ids = idList.join(',');
+    try {
+      final response = await _dio.get("/character/[${ids}]");
+      (response.data as List).map((x) => Character.fromJson(x)).toList();
+      return CharacterResponse(
+        characters:
+            (response.data as List).map((x) => Character.fromJson(x)).toList(),
+        info: CharacterInfo(
+          count:
+              0, // Placeholder, as this API does not return info for multiple characters
+          pages: 0, // Placeholder
+          next: null, // Placeholder
+          prev: null, // Placeholder
+        ),
+      );
+    } on DioException catch (e) {
+      log('Error: <ApiService> :: ${e.message}');
+      return null;
+    }
+  }
 }
