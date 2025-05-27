@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rickandmorty/views/screens/characters_view/characters_view_model.dart';
+import 'package:rickandmorty/views/widget/appbar_widget.dart';
 import 'package:rickandmorty/views/widget/character_card_list_view.dart';
 
 class CharactersView extends StatefulWidget {
@@ -44,7 +45,13 @@ class _CharactersViewState extends State<CharactersView> {
             },
           ),
     ];
-    return Scaffold(body: Center(child: Column(children: children)));
+    return Scaffold(
+      appBar: AppbarWidget(title: 'Rick and Morty'),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Center(child: Column(children: children)),
+      ),
+    );
   }
 
   Padding _serchInputWidget(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rickandmorty/views/screens/favorites_view/favorites_view_model.dart';
+import 'package:rickandmorty/views/widget/appbar_widget.dart';
 import 'package:rickandmorty/views/widget/character_card_list_view.dart';
 
 class FavoritesView extends StatefulWidget {
@@ -27,6 +28,7 @@ class _FavoritesViewState extends State<FavoritesView> {
     final _favoritesViewModel = context.watch<FavoritesViewModel>();
 
     return Scaffold(
+      appBar: AppbarWidget(title: 'Favoriler'),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),

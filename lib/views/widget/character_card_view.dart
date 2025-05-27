@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rickandmorty/app/di.dart';
+import 'package:rickandmorty/app/router.dart';
 import 'package:rickandmorty/models/characters_model.dart';
 import 'package:rickandmorty/services/preferences_service.dart';
 
@@ -33,84 +35,89 @@ class _CharacterCardViewState extends State<CharacterCardView> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7),
-      child: Card(
-        elevation: 1,
-        color: Theme.of(context).colorScheme.secondary,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-        child: SizedBox(
-          height: 100,
-          child: Row(
-            children: [
-              // Avatar Container
-              _avatarWidget(context, image: widget.character.image),
+    return InkWell(
+      onTap: () {
+        context.push(AppRoute.characterDetail, extra: widget.character);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 7),
+        child: Card(
+          elevation: 1,
+          color: Theme.of(context).colorScheme.secondary,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+          child: SizedBox(
+            height: 100,
+            child: Row(
+              children: [
+                // Avatar Container
+                _avatarWidget(context, image: widget.character.image),
 
-              const SizedBox(width: 17),
+                const SizedBox(width: 17),
 
-              // Content Area
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      // Name and Location
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.character.name,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface,
-                              fontWeight: FontWeight.w600,
+                // Content Area
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Name and Location
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.character.name,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.titleMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 5),
-                          _infoLocationWidget(
-                            context,
-                            location: widget.character.location.name,
-                          ),
-                        ],
-                      ),
+                            const SizedBox(height: 5),
+                            _infoLocationWidget(
+                              context,
+                              location: widget.character.location.name,
+                            ),
+                          ],
+                        ),
 
-                      // Status Chip
-                      _infoStatusWidget(
-                        context,
-                        status: widget.character.status,
-                        type: widget.character.species,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              // Bookmark Button
-              Container(
-                alignment: Alignment.topRight,
-                margin: const EdgeInsets.only(left: 0),
-                child: IconButton(
-                  onPressed: _favoriteButtonPressed,
-                  icon: Icon(
-                    widget.isFavorite
-                        ? Icons.bookmark_rounded
-                        : Icons.bookmark_border_rounded,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  style: IconButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                        // Status Chip
+                        _infoStatusWidget(
+                          context,
+                          status: widget.character.status,
+                          type: widget.character.species,
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ),
-            ],
+
+                // Bookmark Button
+                Container(
+                  alignment: Alignment.topRight,
+                  margin: const EdgeInsets.only(left: 0),
+                  child: IconButton(
+                    onPressed: _favoriteButtonPressed,
+                    icon: Icon(
+                      widget.isFavorite
+                          ? Icons.bookmark_rounded
+                          : Icons.bookmark_border_rounded,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                    style: IconButton.styleFrom(
+                      foregroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -131,19 +138,22 @@ class _CharacterCardViewState extends State<CharacterCardView> {
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.network(
-          image,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              color: Theme.of(context).colorScheme.tertiary,
-              child: Icon(
-                Icons.person,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                size: 32,
-              ),
-            );
-          },
+        child: Hero(
+          tag: widget.character.image,
+          child: Image.network(
+            image,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return Container(
+                color: Theme.of(context).colorScheme.tertiary,
+                child: Icon(
+                  Icons.person,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  size: 32,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

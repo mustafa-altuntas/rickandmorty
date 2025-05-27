@@ -10,12 +10,7 @@ class AppView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _appBarWidget(),
-
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18),
-        child: navigationShell,
-      ),
+      body: navigationShell,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           navigationBarTheme: NavigationBarThemeData(
@@ -110,22 +105,4 @@ class AppView extends StatelessWidget {
     ),
     label: label,
   );
-
-  AppBar _appBarWidget() {
-    return AppBar(
-      title: Text(
-        'Rick and Morty',
-        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-      ),
-      //leading: // sol kısımdaki ikonlar
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.settings),
-          onPressed: () {
-            // Search action
-          },
-        ),
-      ],
-    );
-  }
 }
