@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rickandmorty/models/characters_model.dart';
 import 'package:rickandmorty/models/episode.dart';
 import 'package:rickandmorty/views/screens/character_detail_view/character_detail_view_model.dart';
+import 'package:rickandmorty/views/widget/BackgroundContainerWidget.dart';
 import 'package:rickandmorty/views/widget/appbar_widget.dart';
 
 class CharacterDetailView extends StatefulWidget {
@@ -28,47 +29,37 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
       child: Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppbarWidget(title: 'Karakter', transparentBackground: true),
-        body: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/bg-image.png'),
-                fit: BoxFit.fitWidth,
-                alignment: Alignment.topCenter,
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _character_avatar_widget(context),
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50),
-                      ),
+        body: Backgroundcontainerwidget(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              _character_avatar_widget(context),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(18.0),
-                      child: Column(
-                        children: [
-                          _character_name_widget(),
-                          SizedBox(height: 15),
-                          _labes_Views(context),
-                          SizedBox(height: 38),
-                          _scenes_Title_Widget(),
-                          SizedBox(height: 15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Column(
+                      children: [
+                        _character_name_widget(),
+                        SizedBox(height: 15),
+                        _labes_Views(context),
+                        SizedBox(height: 30),
+                        _scenes_Title_Widget(),
 
-                          _episode_list_view(),
-                        ],
-                      ),
+                        _episode_list_view(),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -177,19 +168,19 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
 
   Padding _character_avatar_widget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 90, bottom: 52),
+      padding: const EdgeInsets.only(top: 50, bottom: 42),
       child: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        radius: 100,
+        radius: 90,
         child: CircleAvatar(
           backgroundColor: Colors.white,
-          radius: 98,
+          radius: 88,
           child: Hero(
             tag: widget.character.image,
             child: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.surface,
               backgroundImage: NetworkImage(widget.character.image),
-              radius: 95,
+              radius: 85,
             ),
           ),
         ),
