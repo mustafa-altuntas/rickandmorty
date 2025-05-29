@@ -30,35 +30,17 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
         extendBodyBehindAppBar: true,
         appBar: AppbarWidget(title: 'Karakter', transparentBackground: true),
         body: Backgroundcontainerwidget(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _character_avatar_widget(context),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(50),
-                      topRight: Radius.circular(50),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(18.0),
-                    child: Column(
-                      children: [
-                        _character_name_widget(),
-                        SizedBox(height: 15),
-                        _labes_Views(context),
-                        SizedBox(height: 30),
-                        _scenes_Title_Widget(),
+          topChild: _character_avatar_widget(context),
 
-                        _episode_list_view(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+          child: Column(
+            children: [
+              _character_name_widget(),
+              SizedBox(height: 15),
+              _labes_Views(context),
+              SizedBox(height: 30),
+              _scenes_Title_Widget(),
+
+              _episode_list_view(),
             ],
           ),
         ),

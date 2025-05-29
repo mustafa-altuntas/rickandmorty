@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 
 class Backgroundcontainerwidget extends StatelessWidget {
   final Widget child;
-  const Backgroundcontainerwidget({super.key, required this.child});
+  final Widget topChild;
+  const Backgroundcontainerwidget({
+    super.key,
+    required this.child,
+    required this.topChild,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +19,24 @@ class Backgroundcontainerwidget extends StatelessWidget {
           alignment: Alignment.topCenter,
         ),
       ),
-      child: child,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          topChild,
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
+                ),
+              ),
+              child: child,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

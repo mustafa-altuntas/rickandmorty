@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:rickandmorty/models/characters_model.dart';
 import 'package:rickandmorty/models/episode.dart';
+import 'package:rickandmorty/models/info_model.dart';
+import 'package:rickandmorty/models/location/location_respose.dart';
 
 class ApiService {
   final _dio = Dio(BaseOptions(baseUrl: 'https://rickandmortyapi.com/api'));
@@ -31,7 +33,7 @@ class ApiService {
       return CharacterResponse(
         characters:
             (response.data as List).map((x) => Character.fromJson(x)).toList(),
-        info: CharacterInfo(
+        info: Info(
           count:
               0, // Placeholder, as this API does not return info for multiple characters
           pages: 0, // Placeholder
@@ -59,6 +61,22 @@ class ApiService {
     } on DioException catch (e) {
       log('Error: <ApiService> :: ${e.message}');
       return [];
+    }
+  }
+
+  Future<LocationResponse?> getLocations({
+    String? url,
+    Map<String, dynamic>? args,
+  }) async {
+    try {
+      final response = await _dio.get(
+        url ?? "/location",
+        queryParameters: args,
+      );
+      return LocationResponse.fromJson(response.data);
+    } on DioException catch (e) {
+      log('Error: <ApiService> :: getLocations() ${e.message}');
+      return null;
     }
   }
 }
