@@ -25,7 +25,7 @@ class _FavoritesViewState extends State<FavoritesView> {
 
   @override
   Widget build(BuildContext context) {
-    final _favoritesViewModel = context.watch<FavoritesViewModel>();
+    final favoritesViewModel = context.watch<FavoritesViewModel>();
 
     return Scaffold(
       appBar: AppbarWidget(title: 'Favoriler'),
@@ -33,14 +33,14 @@ class _FavoritesViewState extends State<FavoritesView> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child:
-              _favoritesViewModel.charactersResponse == null
+              favoritesViewModel.charactersResponse == null
                   ? const CircularProgressIndicator()
-                  : _favoritesViewModel.charactersResponse!.characters.isEmpty
+                  : favoritesViewModel.charactersResponse!.characters.isEmpty
                   ? const Text('No favorites found')
                   : Column(
                     children: [
                       CharacterCardListView(
-                        viewModel: _favoritesViewModel.charactersResponse,
+                        viewModel: favoritesViewModel.charactersResponse,
                         onLoadMore: () {},
                       ),
                     ],

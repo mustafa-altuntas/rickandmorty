@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rickandmorty/views/screens/locations_view/location_listview.dart';
 import 'package:rickandmorty/views/screens/locations_view/locations_view_model.dart';
-import 'package:rickandmorty/views/widget/BackgroundContainerWidget.dart';
+import 'package:rickandmorty/views/widget/background_container_widget.dart';
 import 'package:rickandmorty/views/widget/appbar_widget.dart';
 
 class LocationsView extends StatefulWidget {
@@ -30,30 +28,28 @@ class _LocationsViewState extends State<LocationsView> {
         body: Backgroundcontainerwidget(
           topChild: SizedBox(height: 74),
 
-          child: _location_list_view(),
+          child: _locationListView(),
         ),
       ),
     );
   }
 
-  Flexible _location_list_view() {
-    return Flexible(
-      child: Consumer<LocationsViewModel>(
-        builder: (context, value, child) {
-          if (value.locationResponse == null) {
-            return Center(child: CircularProgressIndicator.adaptive());
-          }
+  Widget _locationListView() {
+    return Consumer<LocationsViewModel>(
+      builder: (context, value, child) {
+        if (value.locationResponse == null) {
+          return Center(child: CircularProgressIndicator.adaptive());
+        }
 
-          return Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: LocationListview(
-              locationResponse: value.locationResponse!,
-              onLoadMore: value.geMoretLocations,
-              loadMore: value.loadMore,
-            ),
-          );
-        },
-      ),
+        return Padding(
+          padding: const EdgeInsets.only(top: 30),
+          child: LocationListview(
+            locationResponse: value.locationResponse!,
+            onLoadMore: value.geMoretLocations,
+            loadMore: value.loadMore,
+          ),
+        );
+      },
     );
   }
 }

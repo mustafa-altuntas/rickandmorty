@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rickandmorty/models/characters_model.dart';
-import 'package:rickandmorty/models/episode.dart';
 import 'package:rickandmorty/views/screens/character_detail_view/character_detail_view_model.dart';
-import 'package:rickandmorty/views/widget/BackgroundContainerWidget.dart';
+import 'package:rickandmorty/views/widget/background_container_widget.dart';
 import 'package:rickandmorty/views/widget/appbar_widget.dart';
+import 'package:rickandmorty/views/widget/episode_listview.dart';
 
 class CharacterDetailView extends StatefulWidget {
   final Character character;
@@ -30,17 +30,17 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
         extendBodyBehindAppBar: true,
         appBar: AppbarWidget(title: 'Karakter', transparentBackground: true),
         body: Backgroundcontainerwidget(
-          topChild: _character_avatar_widget(context),
+          topChild: _characterAvatarWidget(context),
 
           child: Column(
             children: [
-              _character_name_widget(),
+              _characterNameWidget(),
               SizedBox(height: 15),
-              _labes_Views(context),
+              _labesViews(context),
               SizedBox(height: 30),
-              _scenes_Title_Widget(),
+              _scenesTitleWidget(),
 
-              _episode_list_view(),
+              _episodeListView(),
             ],
           ),
         ),
@@ -48,45 +48,24 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
     );
   }
 
-  Flexible _episode_list_view() {
+  Flexible _episodeListView() {
     return Flexible(
       child: Consumer<CharacterDetailViewModel>(
-        builder:
-            (context, value, child) => ListView.separated(
-              padding: EdgeInsets.zero,
-              itemCount: value.episodes.length,
-              itemBuilder: (context, index) {
-                final Episode episode = value.episodes[index];
-                return ListTile(
-                  leading: Icon(Icons.face_retouching_natural, size: 36),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                  title: Text(
-                    episode.episode,
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  subtitle: Text(episode.name, style: TextStyle(fontSize: 12)),
-                );
-              },
-              separatorBuilder:
-                  (context, index) => Divider(
-                    color: Theme.of(context).colorScheme.tertiary,
-                    height: 0,
-                    indent: 20,
-                    endIndent: 20,
-                  ),
-            ),
+        builder: (context, value, child) {
+          return EpisodeListview(episodes: value.episodes);
+        },
       ),
     );
   }
 
-  Text _character_name_widget() {
+  Text _characterNameWidget() {
     return Text(
       widget.character.name,
       style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
     );
   }
 
-  Align _scenes_Title_Widget() {
+  Align _scenesTitleWidget() {
     return Align(
       alignment: Alignment.centerLeft,
       child: Text(
@@ -96,7 +75,7 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
     );
   }
 
-  Padding _labes_Views(BuildContext context) {
+  Padding _labesViews(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 39),
       child: Wrap(
@@ -104,23 +83,23 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
         runSpacing: 4,
         spacing: 7,
         children: [
-          _label_widget(
+          _labelwidget(
             context,
             label: widget.character.status,
             tooltip: 'Status',
           ),
-          _label_widget(
+          _labelwidget(
             context,
             label: widget.character.origin.name,
             tooltip: 'origin',
           ),
-          _label_widget(
+          _labelwidget(
             context,
             label: widget.character.gender,
             tooltip: 'gender',
           ),
 
-          _label_widget(
+          _labelwidget(
             context,
             label: widget.character.species,
             tooltip: 'species',
@@ -130,7 +109,7 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
     );
   }
 
-  Widget _label_widget(
+  Widget _labelwidget(
     BuildContext context, {
     required String label,
     String? tooltip,
@@ -148,7 +127,7 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
     );
   }
 
-  Padding _character_avatar_widget(BuildContext context) {
+  Padding _characterAvatarWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 50, bottom: 42),
       child: CircleAvatar(

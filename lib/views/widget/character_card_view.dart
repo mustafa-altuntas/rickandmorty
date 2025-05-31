@@ -5,6 +5,7 @@ import 'package:rickandmorty/app/router.dart';
 import 'package:rickandmorty/models/characters_model.dart';
 import 'package:rickandmorty/services/preferences_service.dart';
 
+// ignore: must_be_immutable
 class CharacterCardView extends StatefulWidget {
   final Character character;
   bool isFavorite;

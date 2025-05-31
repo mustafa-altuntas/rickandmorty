@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rickandmorty/app/di.dart';
-import 'package:rickandmorty/models/episode.dart';
+import 'package:rickandmorty/models/episode/episode.dart';
 import 'package:rickandmorty/services/api_service.dart';
 
 class CharacterDetailViewModel extends ChangeNotifier {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:rickandmorty/app/router.dart';
 import 'package:rickandmorty/models/location/location.dart';
 import 'package:rickandmorty/models/location/location_respose.dart';
 
@@ -19,7 +21,6 @@ class LocationListview extends StatefulWidget {
 
 class _LocationListviewState extends State<LocationListview> {
   final ScrollController _scrollController = ScrollController();
-  List<int> _favoriteCharacters = [];
   // bool _isLoading = false;
   @override
   void initState() {
@@ -49,6 +50,8 @@ class _LocationListviewState extends State<LocationListview> {
         return Column(
           children: [
             ListTile(
+              onTap:
+                  () => context.push(AppRoute.residentRoute, extra: location),
               leading: Icon(Icons.location_on, size: 36),
               trailing: Icon(Icons.keyboard_arrow_right),
               title: Text(
@@ -57,8 +60,8 @@ class _LocationListviewState extends State<LocationListview> {
               ),
               subtitle: Column(
                 children: [
-                  _subtitle_item_widget(text: 'Tür: ', value: location.name),
-                  _subtitle_item_widget(
+                  _subtitleItemWidget(text: 'Tür: ', value: location.name),
+                  _subtitleItemWidget(
                     text: 'Kişi Sayısı: ',
                     value: location.residents.length.toString(),
                   ),
@@ -81,13 +84,10 @@ class _LocationListviewState extends State<LocationListview> {
     );
   }
 
-  Row _subtitle_item_widget({required String text, required String value}) {
+  Row _subtitleItemWidget({required String text, required String value}) {
     return Row(
       children: [
-        Text(
-          '${text}',
-          style: TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
-        ),
+        Text(text, style: TextStyle(fontSize: 10, fontWeight: FontWeight.w300)),
         Text(value, style: TextStyle(fontSize: 10)),
       ],
     );
