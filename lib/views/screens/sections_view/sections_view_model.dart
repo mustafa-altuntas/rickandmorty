@@ -21,6 +21,9 @@ class SectionsViewModel extends ChangeNotifier {
   }
 
   void onLoadMore() async {
+    if (loadMore) return;
+    if (_episodeRespose?.info?.pages == _currentPage) return;
+
     if (loadMore && _currentPage == _episodeRespose?.info?.pages) return;
     setLoadMore(true);
     final data = await _apiSerive.getEpisodes(url: _episodeRespose?.info?.next);
