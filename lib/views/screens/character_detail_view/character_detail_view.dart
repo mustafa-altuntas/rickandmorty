@@ -58,19 +58,25 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
     );
   }
 
-  Text _characterNameWidget() {
-    return Text(
-      widget.character.name,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+  Widget _characterNameWidget() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Text(
+        widget.character.name,
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+      ),
     );
   }
 
-  Align _scenesTitleWidget() {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        'Bölümler (${widget.character.episode.length})',
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+  Widget _scenesTitleWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          'Bölümler (${widget.character.episode.length})',
+          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+        ),
       ),
     );
   }
@@ -129,19 +135,19 @@ class _CharacterDetailViewState extends State<CharacterDetailView> {
 
   Padding _characterAvatarWidget(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 50, bottom: 42),
+      padding: const EdgeInsets.only(top: 50, bottom: 32),
       child: CircleAvatar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        radius: 90,
+        radius: 85,
         child: CircleAvatar(
           backgroundColor: Colors.white,
-          radius: 88,
+          radius: 83,
           child: Hero(
             tag: widget.character.image,
             child: CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.surface,
               backgroundImage: NetworkImage(widget.character.image),
-              radius: 85,
+              radius: 80,
             ),
           ),
         ),

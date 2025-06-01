@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       routerConfig: router,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lighTheme,
-      title: 'Material App',
+      title: 'Rick&Morty',
     );
   }
 }

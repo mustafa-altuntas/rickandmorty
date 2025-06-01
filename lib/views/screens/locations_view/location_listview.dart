@@ -60,7 +60,7 @@ class _LocationListviewState extends State<LocationListview> {
               ),
               subtitle: Column(
                 children: [
-                  _subtitleItemWidget(text: 'Tür: ', value: location.name),
+                  _subtitleItemWidget(text: 'Tür: ', value: location.type),
                   _subtitleItemWidget(
                     text: 'Kişi Sayısı: ',
                     value: location.residents.length.toString(),
