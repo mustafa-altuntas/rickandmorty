@@ -27,4 +27,9 @@ class PreferencesService {
     final characterList = prefs.getStringList(_characterKey) ?? [];
     return characterList.map((e) => int.parse(e)).toList();
   }
+
+  bool isCharacterFavorite(int id) {
+    final savedCharacters = getSavedCharacters();
+    return savedCharacters.contains(id);
+  }
 }

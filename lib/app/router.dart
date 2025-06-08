@@ -19,6 +19,8 @@ import 'package:rickandmorty/views/screens/section_character/section_character_v
 import 'package:rickandmorty/views/screens/section_character/section_character_view_model.dart';
 import 'package:rickandmorty/views/screens/sections_view/sections_view.dart';
 import 'package:rickandmorty/views/screens/sections_view/sections_view_model.dart';
+import 'package:rickandmorty/views/screens/settings_view/settings_view.dart';
+import 'package:rickandmorty/views/screens/settings_view/settings_view_model.dart';
 
 final _routeKey = GlobalKey<NavigatorState>();
 
@@ -36,6 +38,8 @@ class AppRoute {
   static const String sectionsCharacter = 'characters';
 
   static const String characterDetail = '/characterDetail';
+
+  static const String setting = '/setting';
 }
 
 final router = GoRouter(
@@ -43,9 +47,7 @@ final router = GoRouter(
   initialLocation: AppRoute.characters,
   routes: [
     StatefulShellRoute.indexedStack(
-      builder:
-          (context, state, navigationShell) =>
-              AppView(navigationShell: navigationShell),
+      builder: (context, state, navigationShell) => AppView(navigationShell: navigationShell),
       branches: [
         StatefulShellBranch(
           routes: [
@@ -62,9 +64,7 @@ final router = GoRouter(
                   builder:
                       (context, state) => ChangeNotifierProvider(
                         create: (context) => CharacterDetailViewModel(),
-                        child: CharacterDetailView(
-                          character: state.extra as Character,
-                        ),
+                        child: CharacterDetailView(character: state.extra as Character),
                       ),
                 ),
               ],
@@ -72,12 +72,7 @@ final router = GoRouter(
           ],
         ),
         StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: AppRoute.favorites,
-              builder: (context, state) => FavoritesView(),
-            ),
-          ],
+          routes: [GoRoute(path: AppRoute.favorites, builder: (context, state) => FavoritesView())],
         ),
         StatefulShellBranch(
           routes: [
@@ -116,9 +111,7 @@ final router = GoRouter(
                   builder:
                       (context, state) => ChangeNotifierProvider(
                         create: (context) => SectionCharacterViewModel(),
-                        child: SectionCharacterView(
-                          episode: state.extra as Episode,
-                        ),
+                        child: SectionCharacterView(episode: state.extra as Episode),
                       ),
                 ),
               ],
@@ -126,6 +119,15 @@ final router = GoRouter(
           ],
         ),
       ],
+    ),
+
+    GoRoute(
+      path: AppRoute.setting,
+      builder:
+          (context, state) => ChangeNotifierProvider(
+            create: (context) => SettingsViewModel(),
+            child: SettingsView(),
+          ),
     ),
   ],
 );

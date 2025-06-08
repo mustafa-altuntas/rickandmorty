@@ -11,7 +11,10 @@ void main() async {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => FavoritesViewModel())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoritesViewModel()),
+        ChangeNotifierProvider(create: (_) => AppTheme()),
+      ],
       child: const MyApp(),
     ),
   );
@@ -22,11 +25,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lighTheme,
-      title: 'Rick&Morty',
+    return Consumer<AppTheme>(
+      builder:
+          (BuildContext context, AppTheme value, Widget? child) => MaterialApp.router(
+            routerConfig: router,
+            debugShowCheckedModeBanner: false,
+            theme: value.themeData,
+            title: 'Rick&Morty',
+          ),
     );
   }
 }

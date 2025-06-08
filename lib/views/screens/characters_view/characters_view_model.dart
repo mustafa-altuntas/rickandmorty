@@ -5,8 +5,27 @@ import 'package:rickandmorty/app/di.dart';
 import 'package:rickandmorty/models/characters_model.dart';
 import 'package:rickandmorty/services/api_service.dart';
 
+extension CharacterTypeExtension on CharacterType {
+  String get nameTr {
+    switch (this) {
+      case CharacterType.all:
+        return 'Tümü';
+      case CharacterType.alive:
+        return 'Canlı';
+      case CharacterType.dead:
+        return 'Ölü';
+      case CharacterType.unknown:
+        return 'Bilinmiyor';
+    }
+  }
+}
+
+enum CharacterType { all, alive, dead, unknown }
+
 class CharactersViewModel extends ChangeNotifier {
   final _apiService = di<ApiService>();
+
+  CharacterType characterType = CharacterType.all;
 
   CharacterResponse? _characterResponse;
   CharacterResponse? get characterResponse => _characterResponse;
@@ -36,9 +55,7 @@ class CharactersViewModel extends ChangeNotifier {
 
     setIsLoading(true);
 
-    final data = await _apiService.getCharacters(
-      url: _characterResponse?.info.next,
-    );
+    final data = await _apiService.getCharacters(url: _characterResponse?.info.next);
 
     setIsLoading(false);
 
@@ -59,5 +76,21 @@ class CharactersViewModel extends ChangeNotifier {
     log('Search Character: $name');
     setIsLoading(false);
     notifyListeners();
+  }
+
+  void onCharacterTypeChange(CharacterType type) async {
+    characterType = type;
+
+    clearCharacters();
+
+    Map<String, dynamic>? args;
+    if (type != CharacterType.all) {
+      args = {'status': type.name};
+    }
+
+    _characterResponse = await _apiService.getCharacters(args: args);
+    notifyListeners();
+
+    // notifyListeners();
   }
 }

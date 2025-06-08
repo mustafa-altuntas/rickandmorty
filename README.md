@@ -93,7 +93,7 @@ Girilen anahtar kelimenin geçtiği karakterler listelenir.
 ---
 
 
-### 🌍 Konumlar & 👥 Residents
+### 🌍 Konumlar & 👥 Residents (Konuma Ait Karakterler)
 
 <p float="left">
   <img src="assets/screenshots/locations.png" alt="Konumlar" width="300" />

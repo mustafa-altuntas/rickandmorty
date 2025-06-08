@@ -10,11 +10,7 @@ class CharacterCardView extends StatefulWidget {
   final Character character;
   bool isFavorite;
 
-  CharacterCardView({
-    super.key,
-    required this.character,
-    required this.isFavorite,
-  });
+  CharacterCardView({super.key, required this.character, required this.isFavorite});
 
   @override
   State<CharacterCardView> createState() => _CharacterCardViewState();
@@ -69,20 +65,16 @@ class _CharacterCardViewState extends State<CharacterCardView> {
                           children: [
                             Text(
                               widget.character.name,
-                              style: Theme.of(
-                                context,
-                              ).textTheme.titleMedium?.copyWith(
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 color: Theme.of(context).colorScheme.onSurface,
                                 fontWeight: FontWeight.w600,
+                                overflow: TextOverflow.ellipsis,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 5),
-                            _infoLocationWidget(
-                              context,
-                              location: widget.character.location.name,
-                            ),
+                            _infoLocationWidget(context, location: widget.character.location.name),
                           ],
                         ),
 
@@ -104,16 +96,12 @@ class _CharacterCardViewState extends State<CharacterCardView> {
                   child: IconButton(
                     onPressed: _favoriteButtonPressed,
                     icon: Icon(
-                      widget.isFavorite
-                          ? Icons.bookmark_rounded
-                          : Icons.bookmark_border_rounded,
+                      widget.isFavorite ? Icons.bookmark_rounded : Icons.bookmark_border_rounded,
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     style: IconButton.styleFrom(
                       foregroundColor: Theme.of(context).colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     ),
                   ),
                 ),
@@ -173,10 +161,7 @@ class _CharacterCardViewState extends State<CharacterCardView> {
             : Colors.red;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: statusColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
+      decoration: BoxDecoration(color: statusColor, borderRadius: BorderRadius.circular(12)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -195,6 +180,7 @@ class _CharacterCardViewState extends State<CharacterCardView> {
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 color: Colors.black,
                 fontWeight: FontWeight.w500,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ),
@@ -215,9 +201,9 @@ class _CharacterCardViewState extends State<CharacterCardView> {
         Expanded(
           child: Text(
             location,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),

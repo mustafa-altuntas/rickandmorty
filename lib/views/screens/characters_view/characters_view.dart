@@ -31,9 +31,7 @@ class _CharactersViewState extends State<CharactersView> {
           : Consumer<CharactersViewModel>(
             builder: (context, viewModel, child) {
               if (viewModel.characterResponse == null) {
-                return const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                );
+                return const Center(child: CircularProgressIndicator.adaptive());
               }
               return CharacterCardListView(
                 viewModel: viewModel.characterResponse,
@@ -59,9 +57,7 @@ class _CharactersViewState extends State<CharactersView> {
       padding: const EdgeInsets.only(top: 12, bottom: 16),
       child: TextFormField(
         textInputAction: TextInputAction.search,
-        onFieldSubmitted:
-            (value) =>
-                context.read<CharactersViewModel>().searchCharacter(value),
+        onFieldSubmitted: (value) => context.read<CharactersViewModel>().searchCharacter(value),
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
@@ -71,13 +67,17 @@ class _CharactersViewState extends State<CharactersView> {
           ),
           hintText: 'Karakter Ara',
           hintStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface),
-          prefixIcon: Icon(
-            Icons.search,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          suffixIcon: Icon(
-            Icons.more_vert,
-            color: Theme.of(context).colorScheme.primary,
+          prefixIcon: Icon(Icons.search, color: Theme.of(context).colorScheme.primary),
+          suffixIcon: PopupMenuButton(
+            onSelected: context.read<CharactersViewModel>().onCharacterTypeChange,
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (context) {
+              return CharacterType.values
+                  .map((e) => PopupMenuItem<CharacterType>(value: e, child: Text(e.nameTr)))
+                  .toList();
+
+              ;
+            },
           ),
         ),
       ),
